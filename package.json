@@ -1,0 +1,20 @@
+{
+	"name": "tatsubot",
+	"version": "0.0.1",
+	"description": "A lazy-made Discord bot.",
+	"main": "dist/index.js",
+	"scripts": {
+		"build": "tsc",
+		"start": "node dist/index.js",
+		"dev": "tsc && node dist/index.js",
+		"watch": "tsc --watch"
+	},
+	"dependencies": {
+		"discord.js": "^14.22.1",
+		"dotenv": "^17.2.3"
+	},
+	"devDependencies": {
+		"@types/node": "^20.19.19",
+		"typescript": "^5.9.3"
+	}
+}
