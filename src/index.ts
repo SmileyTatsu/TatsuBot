@@ -35,11 +35,11 @@ const client = new Client({
 (client as any).commands = new Collection();
 (client as any).slashCommands = new Collection();
 
-async () => {
+(async () => {
     // Load handlers
     await loadEvents(client);
     await loadCommands(client);
 
     // Login
     client.login(process.env.DISCORD_BOT_TOKEN);
-};
+})();
