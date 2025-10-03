@@ -8,11 +8,9 @@ const command: TextCommand = {
     name: "generate-image",
     description: "Generates an image based on a prompt using NovelAI.",
     async execute(message: Message, args: string[]) {
-        console.log("Generate image command invoked");
         const prompt = args.join(" ");
 
         try {
-            console.log("Generating image with prompt:", prompt);
             const imageBase64 = await novelAI.generateImage(prompt);
 
             console.log("Image generated successfully");
