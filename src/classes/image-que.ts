@@ -34,8 +34,11 @@ class PriorityQueue<T> {
         return this.items.length;
     }
 
-    peekNextTen(): T[] {
-        return this.items.slice(0, 10).map((element) => element.item);
+    peekNextTenWithPriority(): { item: T; priority: number }[] {
+        return this.items.slice(0, 10).map((element) => ({
+            item: element.item,
+            priority: this.getEffectivePriority(element),
+        }));
     }
 
     isInQueue(item: T): boolean {
@@ -99,8 +102,11 @@ export class imageQueue {
         return this.queue.size();
     }
 
-    peekNextTenIds() {
-        return this.queue.peekNextTen().map((element) => element.data.userId);
+    peekNextTenIdsAndPriorities() {
+        return this.queue.peekNextTenWithPriority().map((element) => ({
+            userId: element.item.data.userId,
+            priority: element.priority,
+        }));
     }
 
     isUserInQueue(userId: string) {

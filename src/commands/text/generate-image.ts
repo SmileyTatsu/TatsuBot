@@ -35,7 +35,7 @@ const command: TextCommand = {
         );
 
         const queuePosition = imageQueue.size();
-        const nextTen = imageQueue.peekNextTenIds();
+        const nextTen = imageQueue.peekNextTenIdsAndPriorities();
 
         const embed = new EmbedBuilder()
             .setTitle("Image Generation Queue")
@@ -44,7 +44,12 @@ const command: TextCommand = {
                     `You are currently number **${queuePosition}** in the queue.`,
                     "",
                     `**Next 10 in Queue:**\n${nextTen
-                        .map((id, index) => `${index + 1}. <@${id}>`)
+                        .map(
+                            (entry, index) =>
+                                `${index + 1}. <@${entry.userId}> (Priority: ${
+                                    entry.priority
+                                })`
+                        )
                         .join("\n")}`,
                 ].join("\n")
             )
