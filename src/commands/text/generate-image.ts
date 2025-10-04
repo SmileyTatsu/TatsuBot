@@ -1,31 +1,52 @@
-import type { Message } from "discord.js";
+import { EmbedBuilder, type Message } from "discord.js";
 import type { TextCommand } from "../../types/index.js";
-import { NovelAIManager } from "../../classes/novelai-manager.js";
-
-const novelAI = new NovelAIManager(process.env.NOVELAI_API_KEY || "");
+import { imageQueue } from "../../classes/image-que.js";
 
 const command: TextCommand = {
     name: "generate-image",
     description: "Generates an image based on a prompt using NovelAI.",
     async execute(message: Message, args: string[]) {
+        console.log("generate-image command invoked.");
         const prompt = args.join(" ");
+        const imageQueue = (message.client as any).imageQueue as imageQueue;
 
-        try {
-            const imageBase64 = await novelAI.generateImage(prompt);
-
-            console.log("Image generated successfully");
-            await message.reply({
-                files: [
-                    {
-                        attachment: Buffer.from(imageBase64, "base64"),
-                        name: "image.png",
-                    },
-                ],
-            });
-        } catch (error) {
-            console.error("Error generating image:", error);
-            await message.reply("Failed to generate image.");
+        if (!prompt) {
+            return message.reply(
+                "Please provide a prompt for image generation."
+            );
         }
+
+        // Fetch in case Discord.JS cache is being shitty
+        const member = await message.member?.fetch();
+        const roles = member?.roles.cache.map((role) => role.name) || [];
+
+        imageQueue.enqueue(
+            message.author.id,
+            message.channel.id,
+            { prompt, options: {} },
+            roles
+        );
+
+        const queuePosition = imageQueue.size();
+        const nextTen = imageQueue.peekNextTenIds();
+
+        const embed = new EmbedBuilder()
+            .setTitle("Image Generation Queue")
+            .setDescription(
+                [
+                    `You are currently number **${queuePosition}** in the queue.`,
+                    "",
+                    `**Next 10 in Queue:**\n${nextTen
+                        .map((id, index) => `${index + 1}. <@${id}>`)
+                        .join("\n")}`,
+                ].join("\n")
+            )
+            .setTimestamp();
+
+        await message.reply({
+            content: "Your image is being generated...",
+            embeds: [embed],
+        });
     },
 };
 

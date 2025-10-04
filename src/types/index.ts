@@ -3,6 +3,7 @@ import {
     Message,
     SlashCommandBuilder,
 } from "discord.js";
+import { NOVELAI_PRIORITY_PER_ROLE } from "../utils/constants.js";
 
 export interface TextCommand {
     name: string;
@@ -21,3 +22,24 @@ export interface Event {
     once?: boolean;
     execute: (...args: any[]) => Promise<any>;
 }
+
+export interface NovelAIImageGenerationOptions {
+    model?: string;
+    negative_prompt?: string;
+    height?: number;
+    width?: number;
+    scale?: number;
+    cfg_rescale?: number;
+    seed?: number;
+    sampler?: string;
+    scheduler?: string;
+    steps?: number;
+    variety_plus?: boolean;
+}
+
+export interface NovelAIImageGenerationRequest {
+    prompt: string;
+    options?: NovelAIImageGenerationOptions;
+}
+
+export type NovelAIRole = keyof typeof NOVELAI_PRIORITY_PER_ROLE;

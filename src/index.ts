@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import {
     Client,
     GatewayIntentBits,
@@ -5,11 +7,10 @@ import {
     AllowedMentionsTypes,
     ActivityType,
 } from "discord.js";
-import dotenv from "dotenv";
 import { loadEvents } from "./handlers/event-handler.js";
 import { loadCommands } from "./handlers/command-handler.js";
-
-dotenv.config();
+import { imageQueue } from "./classes/image-que.js";
+import { initQueue } from "./utils/init-queue.js";
 
 // Create Discord client
 const client = new Client({
@@ -34,11 +35,15 @@ const client = new Client({
 // Custom collections for commands (I hate this so much but I am too lazy to do something better)
 (client as any).commands = new Collection();
 (client as any).slashCommands = new Collection();
+(client as any).imageQueue = new imageQueue();
 
 (async () => {
     // Load handlers
     await loadEvents(client);
     await loadCommands(client);
+
+    // Initialize the image queue
+    initQueue((client as any).imageQueue, client);
 
     // Login
     client.login(process.env.DISCORD_BOT_TOKEN);

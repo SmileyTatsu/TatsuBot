@@ -1,9 +1,11 @@
+import JSZip from "jszip";
 import {
     NOVELAI_BASE_URL,
     NOVELAI_IMAGE_GENERATION_MODELS,
     NOVELAI_SAMPLERS,
     NOVELAI_SCHEDULERS,
 } from "../utils/constants.js";
+import { NovelAIImageGenerationRequest } from "../types/index.js";
 
 export class NovelAIManager {
     private apiKey: string;
@@ -16,23 +18,10 @@ export class NovelAIManager {
         this.apiKey = apiKey;
     }
 
-    async generateImage(
-        prompt: string,
-        options?: {
-            model?: string;
-            negative_prompt?: string;
-            height?: number;
-            width?: number;
-            scale?: number;
-            cfg_rescale?: number;
-            seed?: number;
-            sampler?: string;
-            scheduler?: string;
-            steps?: number;
-
-            variety_plus?: boolean;
-        }
-    ): Promise<string> {
+    async generateImage({
+        prompt,
+        options,
+    }: NovelAIImageGenerationRequest): Promise<string> {
         const generateUrl = `${NOVELAI_BASE_URL}/ai/generate-image`;
 
         if (
@@ -154,7 +143,6 @@ export class NovelAIManager {
         buffer: ArrayBuffer,
         ext: string
     ): Promise<Buffer | null> {
-        const JSZip = (await import("jszip")).default;
         const zip = await JSZip.loadAsync(buffer);
         for (const filename of Object.keys(zip.files)) {
             if (filename.endsWith(ext)) {
