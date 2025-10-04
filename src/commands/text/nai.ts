@@ -3,7 +3,7 @@ import type { TextCommand } from "../../types/index.js";
 import { imageQueue } from "../../classes/image-que.js";
 
 const command: TextCommand = {
-    name: "generate-image",
+    name: "nai",
     description: "Generates an image based on a prompt using NovelAI.",
     async execute(message: Message, args: string[]) {
         console.log("generate-image command invoked.");
