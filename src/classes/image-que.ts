@@ -2,13 +2,16 @@ import { NovelAIImageGenerationRequest, NovelAIRole } from "../types/index.js";
 import { NOVELAI_PRIORITY_PER_ROLE } from "../utils/constants.js";
 
 class PriorityQueue<T> {
-    private items: { item: T; priority: number }[] = [];
+    private items: { item: T; priority: number; enqueueTime: number }[] = [];
 
     enqueue(item: T, priority: number) {
-        const queueElement = { item, priority };
+        const queueElement = { item, priority, enqueueTime: Date.now() };
         let added = false;
         for (let i = 0; i < this.items.length; i++) {
-            if (queueElement.priority > this.items[i].priority) {
+            if (
+                this.getEffectivePriority(queueElement) >
+                this.getEffectivePriority(this.items[i])
+            ) {
                 this.items.splice(i, 0, queueElement);
                 added = true;
                 break;
@@ -37,6 +40,20 @@ class PriorityQueue<T> {
 
     isInQueue(item: T): boolean {
         return this.items.some((element) => element.item === item);
+    }
+
+    private getEffectivePriority(element: {
+        priority: number;
+        enqueueTime: number;
+    }) {
+        const decayInterval = 5000; // 5 seconds
+
+        // Calculate how many decay intervals have passed since the item was enqueued
+        // Each interval increases the effective priority by 1
+        const age = Math.floor(
+            (Date.now() - element.enqueueTime) / decayInterval
+        );
+        return element.priority + age;
     }
 }
 
