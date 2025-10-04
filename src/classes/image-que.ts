@@ -34,6 +34,10 @@ class PriorityQueue<T> {
     peekNextTen(): T[] {
         return this.items.slice(0, 10).map((element) => element.item);
     }
+
+    isInQueue(item: T): boolean {
+        return this.items.some((element) => element.item === item);
+    }
 }
 
 export class imageQueue {
@@ -80,5 +84,13 @@ export class imageQueue {
 
     peekNextTenIds() {
         return this.queue.peekNextTen().map((element) => element.data.userId);
+    }
+
+    isUserInQueue(userId: string) {
+        return this.queue.isInQueue({
+            data: { userId, channelId: "" },
+            request: { prompt: "", options: {} },
+            roles: [],
+        });
     }
 }

@@ -16,6 +16,13 @@ const command: TextCommand = {
             );
         }
 
+        // Check if user is already in the queue
+        if (imageQueue.isUserInQueue(message.author.id)) {
+            return message.reply(
+                "You already have a pending image generation request in the queue."
+            );
+        }
+
         // Fetch in case Discord.JS cache is being shitty
         const member = await message.member?.fetch();
         const roles = member?.roles.cache.map((role) => role.name) || [];
