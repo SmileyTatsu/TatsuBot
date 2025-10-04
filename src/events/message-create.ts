@@ -1,9 +1,10 @@
-import { Message } from "discord.js";
+import { Events, Message } from "discord.js";
 import type { Event } from "../types/index.js";
 
 const event: Event = {
-    name: "messageCreate",
+    name: Events.MessageCreate,
     async execute(message: Message, client) {
+        console.log("messageCreate event triggered.");
         if (message.author.bot) return;
 
         const prefix = "!";

@@ -1,8 +1,8 @@
-import { Client } from "discord.js";
+import { Client, Events } from "discord.js";
 import type { Event } from "../types/index.js";
 
 const event: Event = {
-    name: "clientReady",
+    name: Events.ClientReady,
     once: true,
     async execute(client: Client) {
         console.log(`✅ Logged in as ${client.user?.tag}`);
