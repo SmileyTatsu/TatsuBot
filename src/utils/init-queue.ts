@@ -1,5 +1,6 @@
 import {
     Client,
+    Collection,
     EmbedBuilder,
     MessageCreateOptions,
     MessagePayload,
@@ -102,6 +103,14 @@ export async function initQueue(queue: imageQueue, client: Client) {
                     };
 
                     await (channel as TextChannel).send(message);
+
+                    // If everything is successful, increment the user's usage count
+                    const imageUsage = (client as any).imageUsage as Collection<
+                        string,
+                        number
+                    >;
+                    const currentUsage = imageUsage.get(userId) || 0;
+                    imageUsage.set(userId, currentUsage + 1);
                 } catch (error) {
                     console.error(
                         `Error processing job for user ${userId}:`,

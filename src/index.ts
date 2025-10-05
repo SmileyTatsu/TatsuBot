@@ -11,6 +11,7 @@ import { loadEvents } from "./handlers/event-handler.js";
 import { loadCommands } from "./handlers/command-handler.js";
 import { imageQueue } from "./classes/image-que.js";
 import { initQueue } from "./utils/init-queue.js";
+import { initQuotaReset } from "./utils/init-quota-reset.js";
 
 // Create Discord client
 const client = new Client({
@@ -36,6 +37,7 @@ const client = new Client({
 (client as any).commands = new Collection();
 (client as any).slashCommands = new Collection();
 (client as any).imageQueue = new imageQueue();
+(client as any).imageUsage = new Collection<string, number>();
 
 (async () => {
     // Load handlers
@@ -44,6 +46,9 @@ const client = new Client({
 
     // Initialize the image queue
     initQueue((client as any).imageQueue, client);
+
+    // Initialize the quota reset job
+    initQuotaReset(client);
 
     // Login
     client.login(process.env.DISCORD_BOT_TOKEN);

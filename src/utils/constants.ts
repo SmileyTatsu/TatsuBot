@@ -19,6 +19,15 @@ export const NOVELAI_SCHEDULERS = ["karras", "exponential", "polyexponential"];
 export const NOVELAI_PRIORITY_PER_ROLE = {
     default: 1,
     "People who own me": 3,
+    "Server Booster": 3,
     Hero: 4,
     Smiley: 10,
+};
+
+export const NOVELAI_USAGE_LIMITS_PER_ROLE = {
+    default: 100,
+    "People who own me": -1,
+    "Server Booster": -1,
+    Hero: -1,
+    Smiley: -1,
 };

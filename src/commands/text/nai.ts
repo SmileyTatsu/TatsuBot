@@ -1,12 +1,12 @@
 import { EmbedBuilder, type Message } from "discord.js";
 import type { TextCommand } from "../../types/index.js";
 import { imageQueue } from "../../classes/image-que.js";
+import { NOVELAI_USAGE_LIMITS_PER_ROLE } from "../../utils/constants.js";
 
 const command: TextCommand = {
     name: "nai",
     description: "Generates an image based on a prompt using NovelAI.",
     async execute(message: Message, args: string[]) {
-        console.log("generate-image command invoked.");
         const prompt = args.join(" ");
         const imageQueue = (message.client as any).imageQueue as imageQueue;
 
@@ -27,6 +27,28 @@ const command: TextCommand = {
         const member = await message.member?.fetch();
         const roles = member?.roles.cache.map((role) => role.name) || [];
 
+        // Check usage limits
+        const imageUsage = (message.client as any).imageUsage as Map<
+            string,
+            number
+        >;
+        const currentUsage = imageUsage.get(message.author.id) || 0;
+        const maxUsage = roles.reduce((max, role) => {
+            const limit =
+                NOVELAI_USAGE_LIMITS_PER_ROLE[
+                    role as keyof typeof NOVELAI_USAGE_LIMITS_PER_ROLE
+                ];
+            if (limit === -1) return -1;
+            return Math.max(max, limit);
+        }, 0);
+
+        if (maxUsage !== -1 && currentUsage >= maxUsage) {
+            return message.reply(
+                `You have reached your image generation limit of ${maxUsage} images. Wait for the next day.`
+            );
+        }
+
+        // Enqueue the request
         imageQueue.enqueue(
             message.author.id,
             message.channel.id,
