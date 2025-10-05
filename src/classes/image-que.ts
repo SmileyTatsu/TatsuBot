@@ -45,6 +45,16 @@ class PriorityQueue<T> {
         return this.items.some((element) => element.item === item);
     }
 
+    getUserPosition(userId: string): number {
+        for (let i = 0; i < this.items.length; i++) {
+            const element = this.items[i];
+            if ((element.item as any).data.userId === userId) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     private getEffectivePriority(element: {
         priority: number;
         enqueueTime: number;
@@ -115,5 +125,9 @@ export class imageQueue {
             request: { prompt: "", options: {} },
             roles: [],
         });
+    }
+
+    getUserPosition(userId: string) {
+        return this.queue.getUserPosition(userId);
     }
 }
