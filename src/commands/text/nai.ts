@@ -91,6 +91,12 @@ const command: TextCommand = {
                         .join("\n")}`,
                 ].join("\n")
             )
+            .setFooter({
+                text:
+                    maxUsage === -1
+                        ? "Unlimited Usage! Thanks for supporting."
+                        : `Daily usage: ${currentUsage}/${maxUsage}`,
+            })
             .setTimestamp();
 
         await message.reply({
