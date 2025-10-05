@@ -31,3 +31,11 @@ export const NOVELAI_USAGE_LIMITS_PER_ROLE = {
     Hero: -1,
     Smiley: -1,
 };
+
+export const NOVELAI_RESOLUTIONS: {
+    [key: string]: { width: number; height: number };
+} = {
+    portrait: { width: 832, height: 1216 },
+    landscape: { width: 1216, height: 832 },
+    square: { width: 1024, height: 1024 },
+};
