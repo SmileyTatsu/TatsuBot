@@ -15,6 +15,8 @@ const command: TextCommand = {
             );
         }
 
+        const queueSize = imageQueue.size();
+
         const nextTen = imageQueue.peekNextTenIdsAndPriorities();
         const embed = new EmbedBuilder()
             .setTitle("NovelAI Image Generation Queue")
@@ -22,7 +24,7 @@ const command: TextCommand = {
                 [
                     `You are currently **#${position + 1}** in the queue.`,
                     "",
-                    `**Next 10 in Queue:**\n${nextTen.map(
+                    `**Next ${queueSize} in Queue:**\n${nextTen.map(
                         (entry, index) =>
                             `${index + 1}. <@${entry.userId}> (Priority: ${
                                 entry.priority
