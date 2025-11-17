@@ -16,6 +16,12 @@ const command: TextCommand = {
     name: "nai",
     description: "Generates an image based on a prompt using NovelAI.",
     async execute(message: Message, args: string[]) {
+        if ((message.client as any).inMaintenance) {
+            return message.reply(
+                "The image generation queue is currently under maintenance. Please try again later."
+            );
+        }
+
         const prompt = args.join(" ");
         const imageQueue = (message.client as any).imageQueue as imageQueue;
 

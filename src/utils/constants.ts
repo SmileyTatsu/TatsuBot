@@ -39,3 +39,5 @@ export const NOVELAI_RESOLUTIONS: {
     landscape: { width: 1216, height: 832 },
     square: { width: 1024, height: 1024 },
 };
+
+export const DEV_IDS = ["1103192807499382816"];

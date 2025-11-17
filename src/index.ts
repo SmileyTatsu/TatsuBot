@@ -38,6 +38,7 @@ const client = new Client({
 (client as any).slashCommands = new Collection();
 (client as any).imageQueue = new imageQueue();
 (client as any).imageUsage = new Collection<string, number>();
+(client as any).inMaintenance = false;
 
 (async () => {
     // Load handlers
