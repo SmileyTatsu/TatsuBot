@@ -42,4 +42,4 @@ export const NOVELAI_RESOLUTIONS: {
 
 export const DEV_IDS = ["1103192807499382816"];
 
-export const GUILD_ID = "1166241535617142867    ";
+export const GUILD_ID = "1166241535617142867";

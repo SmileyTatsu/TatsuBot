@@ -5,7 +5,7 @@ import { GUILD_ID } from "../utils/constants.js";
 const event: Event = {
     name: Events.MessageCreate,
     async execute(message: Message, client) {
-        if (message.guildId && message.guildId !== GUILD_ID) return;
+        if (message.guildId !== GUILD_ID) return;
 
         if (message.author.bot) return;
 
