@@ -47,6 +47,7 @@ const command: TextCommand = {
                     "**Notes**",
                     "- If you omit resolution, a 1024x1024 image is used by default.",
                     "- The proper way to prompt is using booru-style tagging and/or small sentences.",
+                    "- Add `fur_dataset` at the beginning of your prompt if you want more animal/furry-focused results.",
                     "",
                     "If you want to see your place in the queue use `!nai-queue`, and to check daily usage use `!nai-usage`.",
                 ].join("\n")

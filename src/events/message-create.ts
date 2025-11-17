@@ -1,10 +1,12 @@
 import { Events, Message } from "discord.js";
 import type { Event } from "../types/index.js";
+import { GUILD_ID } from "../utils/constants.js";
 
 const event: Event = {
     name: Events.MessageCreate,
     async execute(message: Message, client) {
-        console.log("messageCreate event triggered.");
+        if (message.guildId && message.guildId !== GUILD_ID) return;
+
         if (message.author.bot) return;
 
         const prefix = "!";
