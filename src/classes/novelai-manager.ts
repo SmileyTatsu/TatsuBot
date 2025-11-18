@@ -43,20 +43,9 @@ export class NovelAIManager {
             throw new Error(`Invalid scheduler: ${options.scheduler}`);
         }
 
-        console.log("Generating image with options:", options);
-
-        if (extra?.enhance_prompt) {
-            prompt = `${prompt}, very aesthetic, masterpiece, no text`;
-            options!.negative_prompt = `${
-                options?.negative_prompt ?? ""
-            }, blurry, lowres, upscaled, artistic error, film grain, scan artifacts, bad anatomy, bad hands, worst quality, bad quality, jpeg artifacts, very displeasing, chromatic aberration, halftone, multiple views, logo, too many watermarks, @_@, mismatched pupils, glowing eyes, negative space, blank page,`;
-        }
-
-        const finalPrompt = prompt;
-
         const body = {
             action: "generate",
-            input: finalPrompt,
+            input: prompt,
             model: options?.model ?? "nai-diffusion-4-5-full",
             parameters: {
                 params_version: 3,
@@ -77,7 +66,7 @@ export class NovelAIManager {
 
                 v4_prompt: {
                     caption: {
-                        base_caption: finalPrompt,
+                        base_caption: prompt,
                         char_captions: [],
                     },
                     use_coords: false,
@@ -111,8 +100,6 @@ export class NovelAIManager {
                 dynamic_thresholding: false,
             },
         };
-
-        console.log("Request body:", body);
 
         try {
             const res = await fetch(generateUrl, {

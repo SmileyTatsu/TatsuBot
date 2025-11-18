@@ -276,7 +276,17 @@ function parseNovelAIPrompt(input: string): NovelAIImageGenerationRequest {
         NAIRequest.options!.height = 1024;
     }
 
-    return { ...NAIRequest, prompt };
+    let finalPrompt = prompt;
+    if (NAIRequest.extra!.enhance_prompt) {
+        finalPrompt =
+            `${finalPrompt}, very aesthetic, masterpiece, no text`.trim();
+
+        NAIRequest.options!.negative_prompt = `${
+            NAIRequest.options?.negative_prompt ?? ""
+        }, blurry, lowres, upscaled, artistic error, film grain, scan artifacts, bad anatomy, bad hands, worst quality, bad quality, jpeg artifacts, very displeasing, chromatic aberration, halftone, multiple views, logo, too many watermarks, @_@, mismatched pupils, glowing eyes, negative space, blank page`;
+    }
+
+    return { ...NAIRequest, prompt: finalPrompt };
 }
 
 export default command;
