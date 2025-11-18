@@ -52,9 +52,11 @@ export class NovelAIManager {
             }, blurry, lowres, upscaled, artistic error, film grain, scan artifacts, bad anatomy, bad hands, worst quality, bad quality, jpeg artifacts, very displeasing, chromatic aberration, halftone, multiple views, logo, too many watermarks, @_@, mismatched pupils, glowing eyes, negative space, blank page,`;
         }
 
+        const finalPrompt = prompt;
+
         const body = {
             action: "generate",
-            input: prompt,
+            input: finalPrompt,
             model: options?.model ?? "nai-diffusion-4-5-full",
             parameters: {
                 params_version: 3,
@@ -75,7 +77,7 @@ export class NovelAIManager {
 
                 v4_prompt: {
                     caption: {
-                        base_caption: prompt,
+                        base_caption: finalPrompt,
                         char_captions: [],
                     },
                     use_coords: false,
