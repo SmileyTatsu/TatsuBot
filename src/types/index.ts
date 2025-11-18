@@ -40,6 +40,9 @@ export interface NovelAIImageGenerationOptions {
 export interface NovelAIImageGenerationRequest {
     prompt: string;
     options?: NovelAIImageGenerationOptions;
+    extra?: {
+        enhance_prompt: boolean;
+    };
 }
 
 export type NovelAIRole = keyof typeof NOVELAI_PRIORITY_PER_ROLE;

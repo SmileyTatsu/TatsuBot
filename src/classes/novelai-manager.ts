@@ -21,6 +21,7 @@ export class NovelAIManager {
     async generateImage({
         prompt,
         options,
+        extra,
     }: NovelAIImageGenerationRequest): Promise<string> {
         const generateUrl = `${NOVELAI_BASE_URL}/ai/generate-image`;
 
@@ -43,6 +44,13 @@ export class NovelAIManager {
         }
 
         console.log("Generating image with options:", options);
+
+        if (extra?.enhance_prompt) {
+            prompt = `${prompt}, very aesthetic, masterpiece, no text`;
+            options!.negative_prompt = `${
+                options?.negative_prompt ?? ""
+            }, blurry, lowres, upscaled, artistic error, film grain, scan artifacts, bad anatomy, bad hands, worst quality, bad quality, jpeg artifacts, very displeasing, chromatic aberration, halftone, multiple views, logo, too many watermarks, @_@, mismatched pupils, glowing eyes, negative space, blank page,`;
+        }
 
         const body = {
             action: "generate",

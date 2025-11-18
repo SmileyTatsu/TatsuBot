@@ -116,6 +116,9 @@ function parseNovelAIPrompt(input: string): NovelAIImageGenerationRequest {
     const NAIRequest: NovelAIImageGenerationRequest = {
         prompt: "",
         options: {},
+        extra: {
+            enhance_prompt: true,
+        },
     };
     const errors: string[] = [];
 
@@ -233,6 +236,16 @@ function parseNovelAIPrompt(input: string): NovelAIImageGenerationRequest {
                     } else {
                         errors.push(
                             `- Invalid variety_plus: ${value}. Must be "true" or "false".`
+                        );
+                    }
+                    break;
+
+                case "enhance_prompt":
+                    if (value === "true" || value === "false") {
+                        NAIRequest.extra!.enhance_prompt = value === "true";
+                    } else {
+                        errors.push(
+                            `- Invalid enhance_prompt: ${value}. Must be "true" or "false".`
                         );
                     }
                     break;
