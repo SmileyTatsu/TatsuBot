@@ -93,7 +93,8 @@ export async function initQueue(queue: imageQueue, client: Client) {
 
                     const message: MessagePayload | MessageCreateOptions = {
                         content: `<@${userId}> Here is your generated image!`,
-                        embeds: [embed],
+                        embeds:
+                            request.extra?.hide_embed === true ? [] : [embed],
                         files: [
                             {
                                 attachment: Buffer.from(imageBase64, "base64"),

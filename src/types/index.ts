@@ -42,6 +42,7 @@ export interface NovelAIImageGenerationRequest {
     options?: NovelAIImageGenerationOptions;
     extra?: {
         enhance_prompt: boolean;
+        hide_embed: boolean;
     };
 }
 

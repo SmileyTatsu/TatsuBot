@@ -118,6 +118,7 @@ function parseNovelAIPrompt(input: string): NovelAIImageGenerationRequest {
         options: {},
         extra: {
             enhance_prompt: true,
+            hide_embed: false,
         },
     };
     const errors: string[] = [];
@@ -246,6 +247,16 @@ function parseNovelAIPrompt(input: string): NovelAIImageGenerationRequest {
                     } else {
                         errors.push(
                             `- Invalid enhance_prompt: ${value}. Must be "true" or "false".`
+                        );
+                    }
+                    break;
+
+                case "hide_embed":
+                    if (value === "true" || value === "false") {
+                        NAIRequest.extra!.hide_embed = value === "true";
+                    } else {
+                        errors.push(
+                            `- Invalid hide_embed: ${value}. Must be "true" or "false".`
                         );
                     }
                     break;
