@@ -71,12 +71,19 @@ const command: TextCommand = {
         }
 
         // Enqueue the request
-        imageQueue.enqueue(
+        const status = imageQueue.enqueue(
             message.author.id,
             message.channel.id,
             naiRequest,
             roles
         );
+
+        if (status === "USER_IN_QUEUE") {
+            return message.reply({
+                content:
+                    "You already have a pending image generation request in the queue.",
+            });
+        }
 
         const queuePosition = imageQueue.size();
         const nextTen = imageQueue.peekNextTenIdsAndPriorities();

@@ -87,6 +87,11 @@ export class imageQueue {
         request: NovelAIImageGenerationRequest,
         roles: string[]
     ) {
+        // Check for user in queue
+        if (this.isUserInQueue(userId)) {
+            return "USER_IN_QUEUE";
+        }
+
         let highestPriority = NOVELAI_PRIORITY_PER_ROLE["default"];
         for (const role of roles) {
             const rolePriority = NOVELAI_PRIORITY_PER_ROLE[role as NovelAIRole];
@@ -98,6 +103,8 @@ export class imageQueue {
             { data: { userId, channelId }, request, roles },
             highestPriority
         );
+
+        return "ENQUEUED";
     }
 
     dequeue() {
